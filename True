@@ -1,6 +1,6 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wizard"))()
 
-local PhantomForcesWindow = Library:NewWindow("Kitler_R BETA")
+local PhantomForcesWindow = Library:NewWindow("BETA")
 
 local MainKillingCheats = PhantomForcesWindow:NewSection("Main")
 
