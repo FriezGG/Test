@@ -1,16 +1,13 @@
-local Library = loadstring(Game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wizard"))()
- 
-local PhantomForcesWindow = Library:NewWindow("Combat")
- 
-local ManKillingCheats = PhantomForcesWindow:NewSection("Kill Options")
- 
-ManKillingCheats:CreateButton("Manual Spam ", function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/nqxlOfc/SlzAX17vGCub7iRKVmJid61Bg/main/KwKVzV5SgcFBd9fnpLr4lKCg6.lua"))()
-print("FRIEZ ON TOP")
-end)
- 
-ManKillingCheats:CreateToggle("Auto Ez", function(value)
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wizard"))()
+
+local PhantomForcesWindow = Library:NewWindow("Kitler_R BETA")
+
+local MainKillingCheats = PhantomForcesWindow:NewSection("Main")
+
+MainKillingCheats:CreateToggle("Auto Parry", function(value)
     loadstring(game:HttpGet("https://raw.githubusercontent.com/KITLER-R/Father/main/France"))()
 end)
-print(value)
+
+MainKillingCheats:CreateToggle("Manual Spam", function(value)
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/nqxlOfc/SlzAX17vGCub7iRKVmJid61Bg/main/KwKVzV5SgcFBd9fnpLr4lKCg6.lua"))()
 end)
