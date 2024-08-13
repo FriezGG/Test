@@ -1,5 +1,3 @@
--- Synapse X Remake made by @chillz_azy (yt)
-
 local synversion = "2.23.11"
 
 -- this shit function makes my script fucked
@@ -19,7 +17,7 @@ end)]]
 local G2L = {};
 -- StarterGui.SynapseX
 G2L["1"] = Instance.new("ScreenGui", game:GetService("CoreGui"));
-G2L["1"]["Name"] = [[SynapseX]];
+G2L["1"]["Name"] = [[Speed X]];
 G2L["1"]["ResetOnSpawn"] = false;
 
 -- StarterGui.SynapseX.FloatingIcon
