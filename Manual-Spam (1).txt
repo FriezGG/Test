@@ -1,0 +1,155 @@
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local CoreGui = game:GetService("CoreGui")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+local hitremote
+for i,v in next, game:GetDescendants() do
+    if v and v.Name:find("\n") and v:IsA("RemoteEvent") then
+        hitremote = v
+        break
+    end
+end
+
+local cframes = {
+    CFrame.new(-Random.new():NextNumber(200, 500), Random.new():NextNumber(0, 40), -Random.new():NextNumber(70, 120)),
+    CFrame.new(-Random.new():NextNumber(200, 500), Random.new():NextNumber(0, 40), -Random.new():NextNumber(70, 120)),
+    CFrame.new(-Random.new():NextNumber(200, 500), Random.new():NextNumber(0, 80), -Random.new():NextNumber(70, 120)),
+    CFrame.new(-Random.new():NextNumber(200, 600), Random.new():NextNumber(0, 80), -Random.new():NextNumber(70, 120))
+}
+
+local function getcloseplr()
+    local plr
+    local dista = math.huge
+    for i,v in next, Players:GetPlayers() do
+        if v and v ~= LocalPlayer and v.Character and v.Character:IsDescendantOf(game:GetService("Workspace"):FindFirstChild("Alive")) and v.Character:FindFirstChildOfClass("Humanoid") and v.Character:FindFirstChildOfClass("Humanoid").Health > 0 and v.Character.PrimaryPart then
+            local dist = LocalPlayer:DistanceFromCharacter(v.Character.PrimaryPart.Position)
+            if dist < dista then
+                dista = dist
+                plr = v
+            end
+        end
+    end
+    return plr
+end
+
+local function getplrs()
+    local plrss = {}
+    for i,v in next, Players:GetPlayers() do
+        if v and v.Character and v.Character:IsDescendantOf(game:GetService("Workspace"):FindFirstChild("Alive")) then
+            plrss[v.Name] = v.Character.PrimaryPart.Position + Vector3.new(10, 10, 10)
+        end
+    end
+    return plrss
+end
+
+local gui = Instance.new("ScreenGui")
+gui.ResetOnSpawn = false
+gui.Parent = CoreGui
+
+local frame = Instance.new("Frame")
+frame.Position = UDim2.new(0, 40, 0, 20)
+frame.Size = UDim2.new(0, 100, 0, 50)
+frame.BackgroundColor3 = Color3.new(0, 0, 0)
+frame.BorderSizePixel = 0
+frame.Name = "Clash Mode"
+frame.Parent = gui
+
+local button = Instance.new("TextButton")
+button.Text = "Clash Mode"
+button.Size = UDim2.new(1, -4, 1, -7)
+button.Position = UDim2.new(0, 3, 0, 5)
+button.BackgroundColor3 = Color3.new(0, 0, 0)
+button.BackgroundTransparency = 0.5
+button.BorderColor3 = Color3.new(0, 0, 0)
+button.BorderSizePixel = 2
+button.Font = Enum.Font.SourceSans
+button.TextColor3 = Color3.new(1, 1, 1)
+button.TextSize = 22
+button.Parent = frame
+
+local activated = false
+local heartbeatConnection
+local manualspamspeed = 9.5
+local manspamcons = {}
+local enabled = true
+local debounce = false
+
+frame.BackgroundTransparency = 0.5
+
+local function deactivateClashMode()
+    if heartbeatConnection then
+        heartbeatConnection:Disconnect()
+        heartbeatConnection = nil
+    end
+
+    for i,v in next, manspamcons do
+        v:Disconnect()
+    end
+    table.clear(manspamcons)
+    enabled = false
+
+    button.Text = "OFF"
+    button.TextColor3 = Color3.new(1, 0, 0)
+end
+
+local function activateClashMode()
+    local function fireHitRemote()
+        if debounce then return end
+        debounce = true
+        delay(0.05, function() debounce = false end)
+        
+        for i = 1, manualspamspeed do
+            if not enabled then break end
+            local args = {
+                [1] = 0.5,
+                [2] = cframes[math.random(1, #cframes)],
+                [3] = getcloseplr() and {[tostring(getcloseplr().Name)] = getcloseplr().Character.PrimaryPart.Position} or getplrs(),
+                [4] = {
+                    [1] = math.random(200, 500),
+                    [2] = math.random(100, 200)
+                },
+                [5] = false
+            }
+            hitremote:FireServer(unpack(args))
+        end
+    end
+
+    heartbeatConnection = RunService.Heartbeat:Connect(function()
+        if enabled then
+            fireHitRemote()
+        end
+    end)
+
+    table.insert(manspamcons, RunService.PreRender:Connect(function()
+        if enabled then
+            fireHitRemote()
+        end
+    end))
+
+    enabled = true
+
+    button.Text = "ON"
+    button.TextColor3 = Color3.new(0, 1, 0)
+end
+
+local function toggleClashMode()
+    activated = not activated
+
+    if activated then
+        activateClashMode()
+    else
+        deactivateClashMode()
+    end
+end
+
+button.MouseButton1Click:Connect(toggleClashMode)
+
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if gameProcessed then return end
+    if input.KeyCode == Enum.KeyCode.G then
+        toggleClashMode()
+    end
+end)
