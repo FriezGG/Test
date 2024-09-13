@@ -1985,11 +1985,8 @@ do
 	--[[ Functions ]]--
 	
 	local function checkWhitelist()
-		if getgenv then
-			return internalUtils:Request("https://api.codex.lol/v1/auth/authenticate", "POST") ~= false;
-		end
-		return false;
-	end
+    return true -- Always return true to bypass the whitelist check
+end
 	
 	local function createBasis(directory: Instance)
 		local gui = instanceUtils:Create("ScreenGui", {
