@@ -2152,23 +2152,38 @@ do
 				textButton({
 					AutomaticSize = Enum.AutomaticSize.None,
 					MouseButton1Click = function()
-						local key = ui.specialUserInput.key.Text;
-						if #key > 0 then
-							local res = internalUtils:Request("https://api.codex.lol/v1/auth/claim", "POST", {
-								["Content-Type"] = "application/json"
-							}, {
-								key = key
-							});
-							if res then
-								changeTab(true);
-								return;
-							end
-						end
-						game:GetService("StarterGui"):SetCore("SendNotification", {
-							Title = "Codex Android",
-							Text = "Invalid key."
-						});
-					end,
+    local key = ui.specialUserInput.key.Text;
+    
+    -- Check if the key is either "Like premium key" or "Speed On Top"
+    if key == "Like premium key" or key == "Speed On Top" then
+        -- Directly grant access without making an API request
+        changeTab(true);
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "Codex Android",
+            Text = "Access granted with premium key."
+        });
+        return;
+    end
+    
+    -- For other keys, make the API request
+    if #key > 0 then
+        local res = internalUtils:Request("https://api.codex.lol/v1/auth/claim", "POST", {
+            ["Content-Type"] = "application/json"
+        }, {
+            key = key
+        });
+        if res then
+            changeTab(true);
+            return;
+        end
+    end
+    
+    -- If the key is invalid or the API request fails
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "Codex Android",
+        Text = "Invalid key."
+    });
+end,
 					Name = "register", 
 					Position = UDim2.new(0.5, 6, 0.5, 6), 
 					Size = UDim2.new(0, 160, 0, 32), 
