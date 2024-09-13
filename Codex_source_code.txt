@@ -2144,23 +2144,17 @@ do
 					MouseButton1Click = function()
 						changeTab(true);
 					end,
-					Name = "cancel", 
-					Position = UDim2.new(0.5, -6, 0.5, 6), 
-					Size = UDim2.new(0, 160, 0, 32), 
-					Text = "Cancel"
-				}),
-				textButton({
-					AutomaticSize = Enum.AutomaticSize.None,
-					MouseButton1Click = function()
+			MouseButton1Click = function()
     local key = ui.specialUserInput.key.Text;
     
-    -- Check if the key is either "Like premium key" or "Speed On Top"
-    if key == "Like premium key" or key == "Speed On Top" then
-        -- Directly grant access without making an API request
-        changeTab(true);
+    -- Check if the key is "Speed On Top"
+    if key == "Speed On Top" then
+        -- Directly grant access and remove/hide the whitelist page
+        ui.whitelistPage.Visible = false;  -- Hide the whitelist page
+        ui.mainPage.Visible = true;        -- Show the main page or any page you want to transition to
         game:GetService("StarterGui"):SetCore("SendNotification", {
             Title = "Codex Android",
-            Text = "Access granted with premium key."
+            Text = "Access granted with Speed On Top."
         });
         return;
     end
@@ -2173,7 +2167,8 @@ do
             key = key
         });
         if res then
-            changeTab(true);
+            ui.whitelistPage.Visible = false;  -- Hide the whitelist page
+            ui.mainPage.Visible = true;        -- Show the main page
             return;
         end
     end
@@ -2183,7 +2178,7 @@ do
         Title = "Codex Android",
         Text = "Invalid key."
     });
-end,
+end
 					Name = "register", 
 					Position = UDim2.new(0.5, 6, 0.5, 6), 
 					Size = UDim2.new(0, 160, 0, 32), 
