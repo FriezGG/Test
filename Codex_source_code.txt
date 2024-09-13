@@ -1985,11 +1985,8 @@ do
 	--[[ Functions ]]--
 	
 	local function checkWhitelist()
-		if getgenv then
-			return internalUtils:Request("https://api.codex.lol/v1/auth/authenticate", "POST") ~= false;
-		end
-		return false;
-	end
+    return true -- Always return true to bypass the whitelist check
+end
 	
 	local function createBasis(directory: Instance)
 		local gui = instanceUtils:Create("ScreenGui", {
@@ -2094,7 +2091,7 @@ do
 					AnchorPoint = Vector2.new(0.5, 1),
 					AutomaticSize = Enum.AutomaticSize.None,
 					MouseButton1Click = function()
-						if Copy Whitelist Link then
+						if setclipboard then
 							local data = internalUtils:Request("https://api.codex.lol/v1/auth/session", "POST");
 							if data then
 								setclipboard("https://mobile.codex.lol?token=" .. httpService:JSONDecode(data).token);
