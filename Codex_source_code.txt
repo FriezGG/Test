@@ -2094,7 +2094,7 @@ do
 					AnchorPoint = Vector2.new(0.5, 1),
 					AutomaticSize = Enum.AutomaticSize.None,
 					MouseButton1Click = function()
-						if setclipboard then
+						if Copy Whitelist Link then
 							local data = internalUtils:Request("https://api.codex.lol/v1/auth/session", "POST");
 							if data then
 								setclipboard("https://mobile.codex.lol?token=" .. httpService:JSONDecode(data).token);
